@@ -7,3 +7,11 @@
   /* unicode-bidi: bidi-override; */
   font-family: "Inter", sans-serif;
 }
+
+@layer utilities {
+  .truncate {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
