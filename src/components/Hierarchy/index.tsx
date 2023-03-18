@@ -16,6 +16,7 @@ import type { HierarchyItemProps } from "@context/hierarchy";
 import getFileType from "@utils/file-type";
 import clsx from "clsx";
 import FileTypeIcon from "./FileTypeIcon";
+import ActionButton from "./ActionButton";
 
 export interface HierarchyProps {
   item: HierarchyItemProps;
@@ -38,23 +39,23 @@ export default function Hierarchy({ item, onUpdate, onRemove }: HierarchyProps) 
     onUpdate({ ...item, isOpen: !isOpen });
   };
 
-  const handleEdit = (updatedTitle?: HierarchyItemProps["title"]) => {
-    onUpdate({ ...item, isEditing: !isEditing, title: updatedTitle ? updatedTitle : title });
-
-    if (!updatedTitle && !title) {
-      // remove created item without title
-      onRemove(item);
-    } else {
-      setEditTitleValue(title);
-    }
-  };
-
   const handleCreate = () => {
     onUpdate({
       ...item,
       isOpen: true,
       children: [...(children || []), { id: Date.now(), title: "", isEditing: true }],
     });
+  };
+
+  const handleEdit = (updatedTitle?: HierarchyItemProps["title"]) => {
+    onUpdate({ ...item, isEditing: !isEditing, title: updatedTitle ? updatedTitle : title });
+
+    if (!updatedTitle && !title) {
+      // remove created item without title to prevent creating folders without title and content
+      onRemove(item);
+    } else {
+      setEditTitleValue(title);
+    }
   };
 
   useEffect(() => {
@@ -95,30 +96,19 @@ export default function Hierarchy({ item, onUpdate, onRemove }: HierarchyProps) 
             <>
               {(isFolder && isOpen) || !isFolder || isEmpty ? (
                 <>
-                  <button
-                    className="scale-0 rounded-lg bg-slate-100 p-1 transition-transform delay-300 group-focus-within:scale-100 group-hover:scale-100"
-                    onClick={() => {
-                      onRemove(item);
-                    }}
-                  >
+                  <ActionButton className="delay-300" onClick={() => onRemove(item)}>
                     <Trash size="20" />
-                  </button>
-                  <button
-                    className="scale-0 rounded-lg bg-slate-100 p-1 transition-transform delay-200 group-focus-within:scale-100 group-hover:scale-100"
-                    onClick={() => handleEdit()}
-                  >
+                  </ActionButton>
+                  <ActionButton className="delay-200" onClick={() => handleEdit()}>
                     <Edit size="20" />
-                  </button>
+                  </ActionButton>
                 </>
               ) : null}
 
               {isFolder && (
-                <button
-                  className="scale-0 rounded-lg bg-slate-100 p-1 transition-transform delay-100 group-focus-within:scale-100 group-hover:scale-100"
-                  onClick={() => handleCreate()}
-                >
+                <ActionButton className="delay-100" onClick={() => handleCreate()}>
                   <AddSquare size="20" />
-                </button>
+                </ActionButton>
               )}
             </>
           )}
