@@ -1,8 +1,6 @@
-import Hierarchy from "@components/Hierarchy";
 import Sidebar from "@components/Sidebar";
-import { HierarchyItemProps, HierarchyProvider, useHierarchy } from "@context/hierarchy";
+import {  HierarchyProvider } from "@context/hierarchy";
 import { DocumentText1 } from "iconsax-react";
-import { useState } from "react";
 
 function App() {
   return (

@@ -14,7 +14,7 @@ export default function Sidebar() {
       <div className="flex w-full items-center justify-between">
         <h2 className="mb-2 text-lg font-bold">File Manager</h2>
         <button
-          className=" flex items-center gap-1 rounded-lg bg-slate-200 py-1 px-2 text-sm"
+          className="flex items-center gap-1 rounded-lg bg-slate-200 py-1 px-2 text-sm"
           onClick={() => handleCreate()}
         >
           <Add size="18" className="rotate-90" /> Create
